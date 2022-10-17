@@ -1,21 +1,26 @@
-#/usr/bin/env python3
-import sys
+#!/usr/bin/python3
+
+from sys import argv
+from math import sqrt
 
 
-def primef(n):
-    if n <= 3:
-        return int(n)
-    if n % 2 == 0:
-        return 2
-    elif n % 3 == 0:
-        return 3
-    else:
-        for i in range(5, int((n)**0.5) + 1, 6):
-            if n % i == 0:
-                return int(i)
-            if n % (i + 2) == 0:
-                return primef(n/(i+2))
-    return int(n)
+def factor():
+    with open(argv[1]) as f:
+        for line in f:
+            num = int(line)
+            print("{:d}=".format(num), end="")
+            if num % 2 == 0:
+                print("{}*2".format(num//2))
+                continue
+            sqn = int(sqrt(num))
+            if sqn % 2 == 0:
+                sqn += 1
+            for i in range(3, sqn + 1, 2):
+                if num % i == 0:
+                    print("{}*{}".format(i, num//i))
+                    break
+            if num % i != 0:
+                print("{}={}*1".format(num, num))
 
 
-print(primef(int(sys.argv[1])))
+factor()
