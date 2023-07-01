@@ -3,11 +3,9 @@ def open_factors(file_path):
     try:
         with open(file_path, 'r') as file:
             elements = file.read().split('\n')
-            elements = [element for element in elements if element]
-            if not elements:
-                raise ValueError("Empty File")
-
-            return elements
+            new_list = list(elements)
+            new_list.pop()
+            return new_list
     except FileNotFoundError:
         return "File '{file_path}' not found.".format(file_path)
 
