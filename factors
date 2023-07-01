@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+
+import math
+
 def open_factors(file_path):
     try:
         with open(file_path, 'r') as file:
@@ -38,13 +41,13 @@ def process_factors(my_list):
     for element in my_list:
         try:
             num = int(element)
-            factors = []
+            factors = set()
             low_fact = None
             found_l_fact = False
 
-            for i in range(2, num + 1):
+            for i in range(2, int(math.sqrt(num)) + 1):
                 if num % i == 0:
-                    factors.append(i)
+                    factors.add(i)
 
                     if not found_l_fact:
                         low_fact = i
