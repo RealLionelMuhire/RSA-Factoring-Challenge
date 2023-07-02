@@ -11,7 +11,7 @@ def rsa():
             if num in range(0, 3):
                 print("{}*{1}".format(num // 2))
             else:
-                for i in range(3, int(sqrt(num)) + 1, 2):
+                for i in range(3, int(sqrt(num)) + 1):
                     if num % i == 0:
                         print("{}*{}".format(num // i, i))
                         break
