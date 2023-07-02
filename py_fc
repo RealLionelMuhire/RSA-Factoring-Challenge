@@ -1,0 +1,68 @@
+#!/usr/bin/python3
+
+import math
+
+def open_factors(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            elements = file.read().split('\n')
+            elements = [element for element in elements if element]
+            if not elements:
+                raise ValueError("Empty File")
+
+            return list(elements)
+    except FileNotFoundError:
+        return "File '{file_path}' not found.".format(file_path)
+
+    except IOError:
+        return "Error opening file '{file_file}'.".format(file_path)
+
+
+
+def get_path():
+    import sys
+
+    if __name__ == "__main__":
+        if len(sys.argv) > 1:
+            file_path = sys.argv[1]
+            result = open_factors(sys.argv[1])
+            if isinstance(result, list):
+                return result
+            else:
+                print("Result is not a list")
+        else:
+            print("Please provide a file path as argument!")
+            sys.exit(0)
+
+my_list = get_path() or []
+
+def process_factors(my_list):
+    result_dict = {}
+    for element in my_list:
+        try:
+            num = int(element)
+            factors = set()
+            low_fact = None
+            found_l_fact = False
+
+            for i in range(2, int(math.sqrt(num)) + 1):
+                if num % i == 0:
+                    factors.add(i)
+
+                    if not found_l_fact:
+                        low_fact = i
+                        found_l_fact = True
+                        break
+            result_dict[num // low_fact] = low_fact
+        except ValueError:
+            print("Non-integer Elements found")
+    return result_dict
+
+fact_dict = process_factors(my_list)
+def print_factors(fact_dict):
+    for key, value in fact_dict.items():
+        print("{}={}*{}".format(key * value, key, value))
+
+
+print_factors(fact_dict)
+
