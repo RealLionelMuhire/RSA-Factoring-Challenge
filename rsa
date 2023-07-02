@@ -1,0 +1,24 @@
+#!/usr/bin/python3
+
+
+import sys
+from math import sqrt
+def rsa():
+    with open(sys.argv[1], 'r') as file:
+        num = file.read()
+        num = int(num)
+        if num in range(0, 3):
+            print(f"{num}={1}*{num}")
+        else:
+            i = 3
+            got_fact = False
+            while i in range(3, int(sqrt(num)) + 1):
+                if num % i == 0:
+                    print("{}={}*{}".format(num, num // i, i))
+                    got_fact = True
+                    if got_fact == True:
+                        return
+                i += 1
+            print("{}={}*{}".format(num, num, 1))
+
+rsa()
