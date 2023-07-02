@@ -18,34 +18,30 @@ void rsa(const char* file_path) {
 
         gmp_printf("%Zd=", num);
 
-        if (mpz_cmp_ui(num, 0) < 0 || mpz_cmp_ui(num, 2) == 0) {
-            gmp_printf("%Zd*1\n", num);
-        } else {
-            mpz_t i;
-            mpz_init(i);
-            mpz_set_ui(i, 3);
-            mpz_t sqrt_num;
-            mpz_init(sqrt_num);
-            mpz_sqrt(sqrt_num, num);
-
-            while (mpz_cmp(i, sqrt_num) <= 0) {
-                if (mpz_divisible_p(num, i)) {
-                    mpz_divexact(num, num, i);
-                    gmp_printf("%Zd*%Zd\n", num, i);
-                    break;
-                }
-                mpz_add_ui(i, i, 2);
-            }
-
-            if (mpz_cmp(i, sqrt_num) > 0) {
-                gmp_printf("%Zd*1\n", num);
-            }
-
-            mpz_clear(sqrt_num);
-            mpz_clear(i);
+        if (mpz_cmp_ui(num, 2) < 0) {
+            gmp_printf("%Zd\n", num);
+            continue;
         }
 
+        mpz_t i, factor;
+        mpz_init(i);
+        mpz_init(factor);
+        mpz_set_ui(i, 2);
+        mpz_set_ui(factor, 1);
+
+        while (mpz_cmp(i, num) <= 0) {
+            if (mpz_divisible_p(num, i)) {
+                mpz_divexact(factor, num, i);
+                break;
+            }
+            mpz_add_ui(i, i, 1);
+        }
+
+        gmp_printf("%Zd*%Zd\n", factor, i);
+
         mpz_clear(num);
+        mpz_clear(i);
+        mpz_clear(factor);
     }
 
     fclose(file);

@@ -1,0 +1,22 @@
+#!/usr/bin/python3
+
+
+import sys
+from math import sqrt
+def rsa():
+    with open(sys.argv[1], 'r') as file:
+        for line in file:
+            num = int(line)
+            print("{:d}=".format(num), end="")
+            if num in range(0, 3):
+                print("{}*{1}".format(num // 2))
+            else:
+                for i in range(3, int(sqrt(num)) + 1):
+                    if num % i == 0:
+                        print("{}*{}".format(num // i, i))
+                        break
+                    i += 1
+                if num % i != 0:
+                    print("{}*{}".format(num, 1))
+
+rsa()
