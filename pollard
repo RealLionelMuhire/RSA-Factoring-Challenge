@@ -1,0 +1,84 @@
+import math
+import random
+
+def open_factors(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            elements = file.read().split('\n')
+            elements = [element for element in elements if element]
+            if not elements:
+                raise ValueError("Empty File")
+
+            return list(elements)
+    except FileNotFoundError:
+        return "File '{file_path}' not found.".format(file_path)
+
+    except IOError:
+        return "Error opening file '{file_file}'.".format(file_path)
+
+def get_path():
+    import sys
+
+    if __name__ == "__main__":
+        if len(sys.argv) > 1:
+            file_path = sys.argv[1]
+            result = open_factors(sys.argv[1])
+            if isinstance(result, list):
+                return result
+            else:
+                print("Result is not a list")
+        else:
+            print("Please provide a file path as argument!")
+            sys.exit(0)
+
+my_list = get_path() or []
+
+def pollards_rho(n):
+    # Check if the number is even
+    if n % 2 == 0:
+        return 2
+
+    # Function to generate the next value in the sequence
+    def f(x):
+        return (x * x + 1) % n
+
+    x = random.randint(1, n - 1)
+    y = x
+    d = 1
+
+    while d == 1:
+        x = f(x)
+        y = f(f(y))
+        d = math.gcd(abs(x - y), n)
+
+    return d
+
+def process_factors(my_list):
+    result_dict = {}
+    for element in my_list:
+        try:
+            num = int(element)
+            factors = set()
+            low_fact = None
+            found_l_fact = False
+
+            # Use Pollard's Rho algorithm for factorization
+            while num > 1:
+                factor = pollards_rho(num)
+                factors.add(factor)
+                num //= factor
+
+            # Find the lowest factor
+            low_fact = min(factors)
+            result_dict[num // low_fact] = low_fact
+        except ValueError:
+            print("Non-integer Elements found")
+    return result_dict
+
+fact_dict = process_factors(my_list)
+def print_factors(fact_dict):
+    for key, value in fact_dict.items():
+        print("{}={}*{}".format(key * value, key, value))
+
+print_factors(fact_dict)
+
